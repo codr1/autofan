@@ -7,6 +7,8 @@
 /*************************************************
 Automatic Temperature Based Fan Control
 
+Video at https://youtu.be/zq1ni1V_5Iw
+
 Based on the project by MHUM-01 example code by Daniel Jay 
 
 Read the current ambient temperature & humidity 
