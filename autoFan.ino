@@ -47,8 +47,8 @@ int fanControl = 9; //PWM Pin with the fan attached to it
 float minTemperature = 80;  // The lowest temperature at which to activate the fan
 float maxTemperature = 96;  // The temperature at which the fan will get to full speed.
 float tempIncrement = 256.0 / ( maxTemperature - minTemperature );
-float fanPower = 0;
-float oldFanPower = 0;
+float fanPower = 255;  // Initialize to the lowest setting
+float oldFanPower = 255; // Initialize to the lowest setting b
 
 int smoothPeriod = 10;  // the amount of time we need to wait before chaning direction of speed (accelerate or decelerate)
 int speedingUp = 0;     // counter that keeps the amount of time before we are allowed to slow down
@@ -128,7 +128,11 @@ void loop() {
     // ...and we haven't slowed down recently
     if( slowingDown == 0 ) {
       Serial.println( "Speeding Up!" );
-      fanPower = newFanPower;
+
+      // We are going to speed up slowly so we avoid the annoying rev up 
+      fanPower = oldFanPower - 2;
+      //fanPower = newFanPower;
+      
       speedingUp = smoothPeriod;
       oldFanPower = fanPower;
     } else {
@@ -143,7 +147,10 @@ void loop() {
     // and we haven't sped up down recently
     if( speedingUp == 0 ) {
       Serial.println( "Slowing Down!" );
-      fanPower = newFanPower;
+      // We are going to speed up slowly so we avoid the annoying rev up 
+      fanPower = oldFanPower + 2;
+      //fanPower = newFanPower;
+      
       slowingDown = smoothPeriod;
       oldFanPower = fanPower;
     } else {
